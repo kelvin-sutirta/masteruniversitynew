@@ -1,0 +1,31 @@
+﻿@{
+    ViewData["Title"] = "Performance Test";
+}
+<h1>@ViewData["Title"]</h1>
+
+<p>This is Performance Page.</p>
+
+<div class="shadow-sm tbl-1 p-3 mb-5" style="background : #F1F1F1;">
+    <div class="card card-custom">
+        <div class="card">
+            <!--Body-->
+            <div class="card-body">
+                <label for="dataAmount">Data Amount:</label>
+                <select id="dataAmount" class="browser-default custom-select">
+                    <option value="1000">1000</option>
+                    <option value="5000">5000</option>
+                    <option value="10000">10000</option>
+                    <option value="50000">50000</option>
+                    <option value="100000">100000</option>
+                    </select>
+                  <div>
+                <button id="buttonPerfSQL" type="button" class="btn btn-danger btn-sm btn-rounded waves-effect waves-light" onclick="buttonPerfSQL">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript" src="~/js/SQLPage.js"></script>
+}
