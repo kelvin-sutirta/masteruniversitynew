@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MasterUniversityFE.Models;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -32,6 +34,13 @@ namespace MasterUniversityFE.Controllers
                     apiResponse = await PerformanceComparisonAsync(TestCases);
                     if (apiResponse.StatusCode == HttpStatusCode.OK)
                     {
+                        var JSON = (await apiResponse.Content.ReadAsStringAsync());
+                        var data = JsonConvert.DeserializeObject<TestResult>(JSON);
+
+                        if (data == null)
+                        {
+                            ViewData["Message"] = "Could not load data category";
+                        }
                         return RedirectToAction("Index");
                     }
                 }
@@ -43,10 +52,13 @@ namespace MasterUniversityFE.Controllers
 
             return View();
         }
+
         private async Task<HttpResponseMessage> PerformanceComparisonAsync(int testCases)
         {
+            //1. fix testcase
             try
             {
+                testCases = 1000;
                 HttpResponseMessage response = new HttpResponseMessage();
                 var listJSON = System.Text.Json.JsonSerializer.Serialize(testCases, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true });
                 var content = new StringContent(listJSON, Encoding.UTF8, "application/json");
